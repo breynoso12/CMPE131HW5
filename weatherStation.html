@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Station</title>
+  <style>
+    .weather-info {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 20px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weather Station</h1>
+  <form id="weatherForm">
+    <label for="cityInput">Enter City:</label>
+    <input type="text" id="cityInput" name="city" required>
+    <button type="submit">Get Weather</button>
+  </form>
+
+  <div class="weather-info" id="weatherInfo">
+  </div>
+
+  <script>
+    const form = document.getElementById('weatherForm');
+    const weatherInfo = document.getElementById('weatherInfo');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const city = document.getElementById('cityInput').value;
+
+      try {
+        const response = await fetch('/collect_data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ city }),
+        });
+
+        if (response.ok) {
+          const weatherData = await fetch('/get_data');
+          const data = await weatherData.json();
+          displayWeatherData(data);
+        } else {
+          throw new Error('Unable to fetch weather data');
+        }
+      } catch (error) {
+        console.error(error);
+        weatherInfo.innerHTML = '<p>Error fetching weather data</p>';
+      }
+    });
+
+    function displayWeatherData(data) {
+      weatherInfo.innerHTML = `
+        <h2>Weather Information</h2>
+        <p>Temperature: ${data.temperature}</p>
+        <p>Humidity: ${data.humidity}</p>
+        <p>Pressure: ${data.pressure}</p>
+      `;
+    }
+app.use(express.static('public'));
+
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Weather Station app listening at http://localhost:${port}`);
+});
+  </script>
+
+  
+</body>
+</html>
