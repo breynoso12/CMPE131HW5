@@ -1,4 +1,3 @@
-// testWeatherStation.js
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('./weatherapplication');
@@ -18,7 +17,7 @@ describe('Weather Station', () => {
   });
 
   it('Checking to see if it can access weather data', (done) => {
-    const data = { city: 'London' };
+    const data = { city: 'Milpitas' };
 
     chai.request(app)
       .post('/collect_data')
