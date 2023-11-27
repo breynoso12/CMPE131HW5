@@ -45,4 +45,4 @@ app.listen(port, () => {
   console.log(`Weather Station app listening at http://localhost:${port}`);
 });
 
-module.exports = app; // Export the app for testing purposes
+module.exports = app;
